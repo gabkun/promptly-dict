@@ -11,7 +11,7 @@ const LandingPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Welcome to <span className="text-blue-400">Promptly</span>
+          Welcome to <span className="text-yellow-400">Promptly</span>
         </motion.h1>
         <motion.p
           className="mt-6 text-lg md:text-2xl text-gray-300"
@@ -29,7 +29,7 @@ const LandingPage: React.FC = () => {
         >
           <a
             href="#features"
-            className="px-6 py-3 text-lg bg-blue-500 hover:bg-blue-600 rounded-lg shadow-lg transition"
+            className="px-6 py-3 text-lg bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-lg transition"
           >
             Get Started
           </a>
@@ -46,7 +46,7 @@ const LandingPage: React.FC = () => {
       <div id="features" className="py-20 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
-            className="text-4xl font-bold text-blue-400"
+            className="text-4xl font-bold text-yellow-400"
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -86,7 +86,7 @@ const LandingPage: React.FC = () => {
       <div id="about" className="py-20 bg-gray-800 text-center">
         <div className="container mx-auto px-4">
           <motion.h2
-            className="text-4xl font-bold text-blue-400"
+            className="text-4xl font-bold text-yellow-400"
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -108,7 +108,7 @@ const LandingPage: React.FC = () => {
       <div id="purpose" className="py-20 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
-            className="text-4xl font-bold text-blue-400"
+            className="text-4xl font-bold text-yellow-400"
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -116,7 +116,7 @@ const LandingPage: React.FC = () => {
             Our Purpose
           </motion.h2>
           <motion.p
-            className="mt-6 text-lg text-gray-400"
+            className="mt-6 text-lg text-white"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -130,7 +130,7 @@ const LandingPage: React.FC = () => {
       <div id="tutorials" className="py-20 bg-gray-800 text-center">
         <div className="container mx-auto px-4">
           <motion.h2
-            className="text-4xl font-bold text-blue-400"
+            className="text-4xl font-bold text-yellow-400"
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
