@@ -1,0 +1,19 @@
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    console.log(localStorage); // Check the contents of localStorage
+    if (storedUserId) {
+      const fetchUserData = async () => {
+        try {
+          const response = await axiosInstance.get(`/api/auth/${storedUserId}`);
+          setFormData((prev) => ({ ...prev, userId: response.data.user.id }));
+        } catch (err) {
+          setError('Failed to fetch user data. Please try again later.');
+        }
+      };
+      fetchUserData();
+    } else {
+      console.error('No user ID found in localStorage.');
+      setError('No user ID found. Please log in again.');
+    }
+  }, []);
