@@ -10,15 +10,15 @@
         },
         {
             "src": "/signup",
-            "dest": "/"
+            "dest": "/signup"
         },
         {
             "src": "/dashboard",
-            "dest": "/"
+            "dest": "/dashboard"
         },
         {
             "src": "/admindashboard",
-            "dest": "/"
+            "dest": "/admindashboard"
         }
     ]
 }
