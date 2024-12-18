@@ -53,8 +53,7 @@ const Dashboard: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setMemoData((prev) => ({
-        ...prev,
-        images: Array.from(e.target.files),
+        ...prev
       }));
     }
   };
