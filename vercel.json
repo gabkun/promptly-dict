@@ -1,24 +1,20 @@
 {
     "routes":[
         {
-            "src": "/",
-            "dest": "/"
-        },
-        {
             "src": "/login",
             "dest": "/"
         },
         {
             "src": "/signup",
-            "dest": "/signup"
+            "dest": "/"
         },
         {
             "src": "/dashboard",
-            "dest": "/dashboard"
+            "dest": "/"
         },
         {
             "src": "/admindashboard",
-            "dest": "/admindashboard"
+            "dest": "/"
         }
     ]
 }
