@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axiosInstance from '../../../api/axiosConfig';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import { Pagination, Navigation } from 'swiper/modules';
 import Calendar from './Calendar';
 import AudioRecorder from './AudioRecorder';
