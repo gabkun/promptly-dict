@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axiosInstance from '../../api/axiosConfig';
 
 const Signup: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [sex, setSex] = useState<'male' | 'female' | 'other'>('male');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Sex:', sex);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    const name = `${firstName} ${lastName}`.trim();
+    if (!name || !email || !password) {
+      setErrorMessage('All fields are required.');
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.post('/api/auth/register', { name, email, password });
+      setSuccessMessage(response.data.message);
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+    } catch (error: any) {
+      setErrorMessage(error.response?.data?.error || 'Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -29,6 +42,8 @@ const Signup: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Sign Up</h2>
+        {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
+        {successMessage && <p className="text-green-500 text-sm text-center">{successMessage}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="firstName" className="block text-lg text-gray-600">First Name</label>
@@ -53,17 +68,6 @@ const Signup: React.FC = () => {
             />
           </div>
           <div>
-            <label htmlFor="username" className="block text-lg text-gray-600">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
-              placeholder="Enter a username"
-            />
-          </div>
-          <div>
             <label htmlFor="email" className="block text-lg text-gray-600">Email</label>
             <input
               type="email"
@@ -84,41 +88,6 @@ const Signup: React.FC = () => {
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
               placeholder="Enter your password"
             />
-          </div>
-          <div>
-            <label className="block text-lg text-gray-600">Sex</label>
-            <div className="flex space-x-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="male"
-                  checked={sex === 'male'}
-                  onChange={() => setSex('male')}
-                  className="mr-2"
-                />
-                Male
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="female"
-                  checked={sex === 'female'}
-                  onChange={() => setSex('female')}
-                  className="mr-2"
-                />
-                Female
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="other"
-                  checked={sex === 'other'}
-                  onChange={() => setSex('other')}
-                  className="mr-2"
-                />
-                Other
-              </label>
-            </div>
           </div>
           <div className="flex justify-between items-center">
             <button

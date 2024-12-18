@@ -1,4 +1,6 @@
 import React from 'react';
+import logo from '../assets/SVG/logo.svg'
+
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -7,14 +9,16 @@ const Navbar: React.FC = () => {
     <nav className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <a href="/" className="text-white font-bold text-2xl tracking-wide">
-              Promptly
-            </a>
-          </div>
+          <div className="flex items-center">
+          <a href="/" className="text-white font-bold text-xl mr-1">
+          <img 
+            src={logo} 
+            alt="P Logo" 
+            className="h-20 w-20" 
+          />
+          </a>
+        </div>
 
-          {/* Desktop Links */}
           <div className="hidden md:flex items-center justify-center space-x-8">
             <a
               href="#home"
@@ -42,7 +46,6 @@ const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* Login & Signup Buttons */}
           <div className="hidden md:flex space-x-4">
             <a
               href="/login"
@@ -58,7 +61,6 @@ const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* Mobile Menu Toggle */}
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -92,7 +94,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-gray-800 text-center py-4 space-y-4">
           <a href="#home" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
