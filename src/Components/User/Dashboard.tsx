@@ -56,7 +56,6 @@ const Dashboard: React.FC = () => {
     if (e.target.files) {
       setMemoData((prev) => ({
         ...prev,
-        images: Array.from(e.target.files),
       }));
     }
   };

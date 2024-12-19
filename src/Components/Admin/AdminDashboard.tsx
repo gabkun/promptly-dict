@@ -44,7 +44,7 @@ const AdminDashboard: React.FC = () => {
         setAudio(memoResponse.data.voiceMemos);
         setTotalVoice(memoResponse.data.voiceMemos.length);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', audio || error);
       }
     };
 
