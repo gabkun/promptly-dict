@@ -7,6 +7,7 @@ import Dashboard from './Components/User/Dashboard';
 import PrivateRoute from './routes/PrivateRoute';
 import ExampleSlider from './Components/Swiper';
 import AdminDashboard from './Components/Admin/AdminDashboard';
+import MemoPage from './Components/User/Memopage';
 
 
 
@@ -21,6 +22,7 @@ function App() {
 <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/view/:memoId" element={<MemoPage />} />
         <Route path="/swiper" element={<ExampleSlider />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/admindashboard" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />

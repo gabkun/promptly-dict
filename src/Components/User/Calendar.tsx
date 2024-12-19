@@ -1,7 +1,21 @@
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 
-const Calendar: React.FC = () => {
+interface MemoData {
+  userId: string;
+  createdDate: string; // Add this field to memo data
+  title: string;
+  description: string;
+  images: File[];
+  audio: File | null;
+  additionalNotes: string;
+}
+
+interface CalendarProps {
+  memos: MemoData[];
+}
+
+const Calendar: React.FC<CalendarProps> = ({ memos }) => {
   const [currentDate, setCurrentDate] = useState<Dayjs>(dayjs()); // Current month
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null); // Selected date
 
@@ -23,6 +37,11 @@ const Calendar: React.FC = () => {
     days.push(day);
     day = day.add(1, "day");
   }
+
+  // Find memos for the selected date
+  const getMemosForDate = (date: Dayjs) => {
+    return memos.filter((memo) => date.isSame(dayjs(memo.createdDate), "day"));
+  };
 
   // Handlers for month navigation
   const handlePrevMonth = () => setCurrentDate(currentDate.subtract(1, "month"));
@@ -61,25 +80,34 @@ const Calendar: React.FC = () => {
 
       {/* Calendar Grid */}
       <div className="grid grid-cols-7 gap-4 text-center mt-4">
-        {days.map((day, index) => (
-          <div
-            key={index}
-            className={`p-4 border rounded-lg cursor-pointer ${
-              day.isSame(currentDate, "month") ? "bg-white" : "bg-gray-100"
-            } ${
-              day.isSame(selectedDate, "day") ? "border-blue-500" : ""
-            }`}
-            onClick={() => handleDateClick(day)}
-          >
-            <span
-              className={`block ${
-                day.isSame(dayjs(), "day") ? "text-blue-500 font-bold" : ""
-              }`}
+        {days.map((day, index) => {
+          const memosForDay = getMemosForDate(day);
+
+          return (
+            <div
+              key={index}
+              className={`p-4 border rounded-lg cursor-pointer ${
+                day.isSame(currentDate, "month") ? "bg-white" : "bg-gray-100"
+              } ${day.isSame(selectedDate, "day") ? "border-blue-500" : ""}`}
+              onClick={() => handleDateClick(day)}
             >
-              {day.date()}
-            </span>
-          </div>
-        ))}
+              <span
+                className={`block ${
+                  day.isSame(dayjs(), "day") ? "text-blue-500 font-bold" : ""
+                }`}
+              >
+                {day.date()}
+              </span>
+
+              {/* Display memos for the day */}
+              {memosForDay.length > 0 && (
+                <div className="text-xs text-gray-500 mt-1">
+                  {memosForDay.length} memo(s)
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Selected Date Details */}
@@ -89,9 +117,19 @@ const Calendar: React.FC = () => {
           <p className="text-gray-700 mt-2">
             {selectedDate.format("dddd, MMMM D, YYYY")}
           </p>
-          {/* Placeholder for additional functionality */}
+
+          {/* Display memos for the selected date */}
           <div className="mt-4">
-            <p className="text-gray-600">No events for this date.</p>
+            {getMemosForDate(selectedDate).length === 0 ? (
+              <p className="text-gray-600">No events for this date.</p>
+            ) : (
+              getMemosForDate(selectedDate).map((memo, index) => (
+                <div key={index} className="mt-2">
+                  <p className="font-semibold">{memo.title}</p>
+                  <p className="text-gray-600">{memo.description}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}

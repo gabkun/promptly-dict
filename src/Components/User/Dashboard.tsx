@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import Calendar from './Calendar';
 import AudioRecorder from './AudioRecorder';
+import { Link } from 'react-router-dom';
+import dayjs from "dayjs";
 
 
 interface MemoData {
@@ -53,7 +55,8 @@ const Dashboard: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setMemoData((prev) => ({
-        ...prev
+        ...prev,
+        images: Array.from(e.target.files),
       }));
     }
   };
@@ -83,22 +86,31 @@ const Dashboard: React.FC = () => {
   const fetchMemos = async (userId: string) => {
     try {
       const response = await axiosInstance.get(`/api/memo/${userId}`);
-      setMemos(response.data.memos);
+      const formattedMemos = response.data.memos.map((memo: any) => ({
+        ...memo,
+        createdDate: dayjs(memo.createdDate), // Ensure it's a Dayjs object
+      }));
+      setMemos(formattedMemos);
     } catch (err) {
       console.error('Failed to fetch memos:', err);
       setError('Unable to retrieve memos. Please try again later.');
     }
   };
-
+  
   const fetchVoice = async (userId: string) => {
     try {
       const response = await axiosInstance.get(`/api/memo/getvoice/${userId}`);
-      setVoiceMemos(response.data.memos);
+      const formattedVoiceMemos = response.data.memos.map((memo: any) => ({
+        ...memo,
+        createdDate: dayjs(memo.createdDate), // Ensure it's a Dayjs object
+      }));
+      setVoiceMemos(formattedVoiceMemos);
     } catch (err) {
       console.error('Failed to fetch memos:', err);
-      setError('Unable to retrieve memos. Please try again later.');
+      setError('Unable to retrieve voice memos. Please try again later.');
     }
   };
+
   const createMemo = async () => {
     try {
       const { userId, memoType, title, description, images, additionalNotes } = memoData;
@@ -174,23 +186,31 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleDelete = async (memoId: string, memoType: number) => {
+    try {
+      const endpoint = memoType === 1 ? `/api/memo/deleteTextMemo` : `/api/memo/deleteVoiceMemo`;
+      const response = await axiosInstance.delete(`${endpoint}/${memoId}`);
+  
+      if (response.status === 200) {
+        alert(response.data.message || 'Memo deleted successfully.');
+        
+
+        if (memoType === 1) {
+          setMemos((prevMemos) => prevMemos.filter((memo) => memo.id !== memoId));
+        } else {
+          setVoiceMemos((prevVoiceMemos) => prevVoiceMemos.filter((memo) => memo.id !== memoId));
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting memo:', error);
+      alert('Failed to delete the memo. Please try again.');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-r from-gray-100 to-gray-300">
-      {/* Sidebar Navigation */}
-      <motion.nav
-        className="w-full md:w-1/4 bg-gray-800 text-white flex flex-col p-4 space-y-6"
-        initial={{ x: -200 }}
-        animate={{ x: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-3xl font-bold text-center">Memo App</h1>
-        <ul className="space-y-4">
-          <li className="hover:bg-gray-700 p-2 rounded-lg text-lg cursor-pointer">Home</li>
-          <li className="hover:bg-gray-700 p-2 rounded-lg text-lg cursor-pointer">Create Memo</li>
-          <li className="hover:bg-gray-700 p-2 rounded-lg text-lg cursor-pointer">Saved Memos</li>
-          <li className="hover:bg-gray-700 p-2 rounded-lg text-lg cursor-pointer">Settings</li>
-        </ul>
-      </motion.nav>
+
+
 
       <div className="m-10 flex-1 flex flex-col p-6">
         <motion.header
@@ -212,16 +232,19 @@ const Dashboard: React.FC = () => {
       >
         Create Voice Memo
       </button>
+      <Link to='/'>
           <button className="px-4 py-2 bg-yellow-400 text-gray-800 rounded-lg font-medium hover:bg-yellow-500 transition">
+
             Logout
           </button>
+          </Link>
 
         </motion.header>
 
         <div>
 
 
-      {/* Modal */}
+
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
           <motion.div
@@ -277,8 +300,6 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
       )}
-
-              {/* Voice Memo Modal */}
               {isVoiceModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
             <motion.div
@@ -349,32 +370,26 @@ const Dashboard: React.FC = () => {
     >
 {memos.map((memo, index) => (
   <SwiperSlide key={memo._id}>
+    <Link to={`/view/${memo._id}`}>
     <motion.div
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       className="bg-gray-50 rounded-xl shadow-lg p-6 border border-gray-300 hover:shadow-2xl transition-all relative flex flex-col h-full"
     >
-      {/* Memo Label */}
       <span className="absolute top-3 left-3 bg-blue-700 text-white px-4 py-1 rounded-full text-sm font-semibold shadow">
         Memo {index + 1}
       </span>
-
-      {/* Title */}
       <h4 className="text-xl font-bold text-gray-800 mt-8 mb-2 leading-tight line-clamp-1">
         {memo.title || 'Untitled Memo'}
       </h4>
-
-      {/* Date */}
       <p className="text-sm text-gray-500 mb-4 font-medium">
         {new Date(memo.createdDate).toLocaleString()}
       </p>
 
-      {/* Description */}
       <p className="text-gray-700 text-sm mb-4 line-clamp-3">
         {memo.description || 'No description provided.'}
       </p>
 
-      {/* Images */}
       {memo.images && memo.images.length > 0 && (
         <div className="grid grid-cols-2 gap-2 mb-4">
           {memo.images.map((img: string, idx: number) => (
@@ -388,23 +403,24 @@ const Dashboard: React.FC = () => {
         </div>
       )}
 
-      {/* Additional Notes */}
       {memo.additionalNotes && (
         <p className="text-gray-500 text-xs italic mb-4">
           {memo.additionalNotes}
         </p>
       )}
 
-      {/* Action Buttons */}
       <div className="flex justify-end gap-4 mt-auto">
         <button className="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold shadow transition-all">
           Update
         </button>
-        <button className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold shadow transition-all">
+        <button 
+         onClick={() => handleDelete(memo._id, 1)}
+        className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold shadow transition-all">
           Delete
         </button>
       </div>
     </motion.div>
+    </Link>
   </SwiperSlide>
 ))}
     </Swiper>
@@ -414,22 +430,45 @@ const Dashboard: React.FC = () => {
 <h3 className="text-3xl font-bold mb-8 text-center text-gray-800">Your Calendar</h3>
   <div className="flex justify-center items-center p-4">
     <div className="w-full md:w-4/5 lg:w-3/5 border border-gray-200 rounded-lg shadow-md p-6 bg-gray-50">
-      <Calendar />
+      <Calendar memos={memos} />
     </div>
   </div>
 <div>
+<h3 className="text-3xl font-bold mb-8 text-center text-gray-800">Your Voice Memos</h3>
+
 {voiceMemos.map((memo, index) => {
-  const filePath = memo.filePath ? memo.filePath.replace(/\\/g, "/") : null; 
+  console.log(memo);  
+  const filePath = memo.filePath ? memo.filePath.replace(/\\/g, "/") : null;
   return (
-    <div key={index}>
-      <p>{memo.title || `Voice Memo ${index + 1}`}</p>
+    <div
+      key={index}
+      className="flex flex-col bg-white rounded-lg shadow-md p-4 mb-4"
+    >
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-lg font-semibold text-gray-800">
+          {memo.title || `Voice Memo ${index + 1}`}
+        </h3>
+        <button
+          onClick={() => handleDelete(memo.id, 2)} 
+          className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-700 transition duration-200"
+        >
+          Delete
+        </button>
+      </div>
+      
       {filePath ? (
-        <audio controls>
-          <source src={`http://localhost:4500/${filePath}`} type="audio/webm" />
+        <audio
+          controls
+          className="w-full mt-2"
+        >
+          <source
+            src={`http://localhost:4500/${filePath}`}
+            type="audio/webm"
+          />
           Your browser does not support the audio element.
         </audio>
       ) : (
-        <p>Audio file unavailable</p>
+        <p className="mt-2 text-gray-500">Audio file unavailable</p>
       )}
     </div>
   );

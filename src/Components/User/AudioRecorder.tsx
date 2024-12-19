@@ -27,9 +27,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({ onAudioData }) => {
         setAudioURL(audioUrl);
         audioChunksRef.current = [];
 
-        // Convert Blob to File and pass it to the parent component
         const audioFile = new File([audioBlob], "audio.webm", { type: "audio/webm" });
-        onAudioData(audioFile); // Ensure the audio file is passed
+        onAudioData(audioFile); 
       };
 
       mediaRecorder.start();

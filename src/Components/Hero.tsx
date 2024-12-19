@@ -10,7 +10,6 @@ const GradientWithParticles: React.FC = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Animated Background Gradient */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full"
         animate={{
@@ -29,8 +28,6 @@ const GradientWithParticles: React.FC = () => {
           zIndex: 1,
         }}
       ></motion.div>
-
-      {/* Particles */}
       <Particles
         init={particleInit}
         options={{

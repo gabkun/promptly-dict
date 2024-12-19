@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-800 to-gray-900 text-white">
-      {/* Hero Section */}
       <div className="container mx-auto flex flex-col items-center justify-center h-screen text-center px-4">
         <motion.h1
           className="text-5xl md:text-7xl font-semibold"
@@ -41,8 +40,6 @@ const LandingPage: React.FC = () => {
           </a>
         </motion.div>
       </div>
-
-      {/* Features Section */}
       <div id="features" className="py-20 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
@@ -81,8 +78,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* About Section */}
       <div id="about" className="py-20 bg-gray-800 text-center">
         <div className="container mx-auto px-4">
           <motion.h2
@@ -103,8 +98,6 @@ const LandingPage: React.FC = () => {
           </motion.p>
         </div>
       </div>
-
-      {/* Purpose Section */}
       <div id="purpose" className="py-20 bg-gray-900">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
@@ -125,8 +118,6 @@ const LandingPage: React.FC = () => {
           </motion.p>
         </div>
       </div>
-
-      {/* Tutorials Section */}
       <div id="tutorials" className="py-20 bg-gray-800 text-center">
         <div className="container mx-auto px-4">
           <motion.h2
@@ -165,8 +156,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
       <footer className="py-8 bg-gray-800 text-center text-gray-400">
         <p>&copy; 2024 Promptly. All rights reserved.</p>
       </footer>

@@ -57,7 +57,7 @@ const Login: React.FC = () => {
   
       alert('Login successful!');
     } catch (err: any) {
-      console.error('Login error:', error || error);
+      console.error('Login error:', err.response || err.message);
       setError(err.response?.data?.error || 'An error occurred during login.');
     }
   };
