@@ -76,7 +76,7 @@ const MemoPage = () => {
                 {memoDetails.images.map((image, index) => (
                   <img
                     key={index}
-                    src={`http://localhost:4500/${image.replace(/\\/g, "/")}`}
+                    src={`https://promptly-dict-ncl9.vercel.app/${image.replace(/\\/g, "/")}`}
                     alt={`Memo image ${index + 1}`}
                     className="w-full h-auto object-cover rounded-lg shadow-sm transition-transform transform hover:scale-105 cursor-pointer"
                     onClick={() => handleImageClick(image)} 

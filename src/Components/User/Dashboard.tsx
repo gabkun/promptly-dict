@@ -394,7 +394,7 @@ const Dashboard: React.FC = () => {
           {memo.images.map((img: string, idx: number) => (
             <img
               key={idx}
-              src={`http://localhost:4500/${img}`}
+              src={`https://promptly-dict-ncl9.vercel.app/${img}`}
               alt={`Memo Image ${idx + 1}`}
               className="w-full h-24 object-cover rounded-lg border border-gray-300"
             />
@@ -461,7 +461,7 @@ const Dashboard: React.FC = () => {
           className="w-full mt-2"
         >
           <source
-            src={`http://localhost:4500/${filePath}`}
+            src={`https://promptly-dict-ncl9.vercel.app/${filePath}`}
             type="audio/webm"
           />
           Your browser does not support the audio element.
