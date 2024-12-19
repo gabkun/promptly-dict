@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axiosInstance from '../../../api/axiosConfig';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import Calendar from './Calendar';
 import AudioRecorder from './AudioRecorder';
 import { Link } from 'react-router-dom';
 import dayjs from "dayjs";
+
 
 
 interface MemoData {
@@ -367,61 +368,63 @@ const Dashboard: React.FC = () => {
       modules={[Pagination, Navigation]}
       className="my-8"
     >
-{memos.map((memo, index) => (
-  <SwiperSlide key={memo._id}>
-    <Link to={`/view/${memo._id}`}>
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className="bg-gray-50 rounded-xl shadow-lg p-6 border border-gray-300 hover:shadow-2xl transition-all relative flex flex-col h-full"
-    >
-      <span className="absolute top-3 left-3 bg-blue-700 text-white px-4 py-1 rounded-full text-sm font-semibold shadow">
-        Memo {index + 1}
-      </span>
-      <h4 className="text-xl font-bold text-gray-800 mt-8 mb-2 leading-tight line-clamp-1">
-        {memo.title || 'Untitled Memo'}
-      </h4>
-      <p className="text-sm text-gray-500 mb-4 font-medium">
-        {new Date(memo.createdDate).toLocaleString()}
-      </p>
-
-      <p className="text-gray-700 text-sm mb-4 line-clamp-3">
-        {memo.description || 'No description provided.'}
-      </p>
-
-      {memo.images && memo.images.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          {memo.images.map((img: string, idx: number) => (
-            <img
-              key={idx}
-              src={`https://promptly-dict-ncl9.vercel.app/${img}`}
-              alt={`Memo Image ${idx + 1}`}
-              className="w-full h-24 object-cover rounded-lg border border-gray-300"
-            />
-          ))}
-        </div>
-      )}
-
-      {memo.additionalNotes && (
-        <p className="text-gray-500 text-xs italic mb-4">
-          {memo.additionalNotes}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  {memos.map((memo, index) => (
+    <Link key={memo._id} to={`/view/${memo._id}`}>
+      <motion.div
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className="bg-gray-50 rounded-xl shadow-lg p-6 border border-gray-300 hover:shadow-2xl transition-all relative flex flex-col h-full"
+      >
+        <span className="absolute top-3 left-3 bg-blue-700 text-white px-4 py-1 rounded-full text-sm font-semibold shadow">
+          Memo {index + 1}
+        </span>
+        <h4 className="text-xl font-bold text-gray-800 mt-8 mb-2 leading-tight line-clamp-1">
+          {memo.title || 'Untitled Memo'}
+        </h4>
+        <p className="text-sm text-gray-500 mb-4 font-medium">
+          {new Date(memo.createdDate).toLocaleString()}
         </p>
-      )}
 
-      <div className="flex justify-end gap-4 mt-auto">
-        <button className="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold shadow transition-all">
-          Update
-        </button>
-        <button 
-         onClick={() => handleDelete(memo._id, 1)}
-        className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold shadow transition-all">
-          Delete
-        </button>
-      </div>
-    </motion.div>
+        <p className="text-gray-700 text-sm mb-4 line-clamp-3">
+          {memo.description || 'No description provided.'}
+        </p>
+
+        {memo.images && memo.images.length > 0 && (
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {memo.images.map((img: string, idx: number) => (
+              <img
+                key={idx}
+                src={`http://localhost:4500/${img}`}
+                alt={`Memo Image ${idx + 1}`}
+                className="w-full h-24 object-cover rounded-lg border border-gray-300"
+              />
+            ))}
+          </div>
+        )}
+
+        {memo.additionalNotes && (
+          <p className="text-gray-500 text-xs italic mb-4">
+            {memo.additionalNotes}
+          </p>
+        )}
+
+        <div className="flex justify-end gap-4 mt-auto">
+          <button className="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold shadow transition-all">
+            Update
+          </button>
+          <button
+            onClick={() => handleDelete(memo._id, 1)}
+            className="px-5 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold shadow transition-all"
+          >
+            Delete
+          </button>
+        </div>
+      </motion.div>
     </Link>
-  </SwiperSlide>
-))}
+  ))}
+</div>
+
     </Swiper>
   )}
 
