@@ -21,25 +21,25 @@ const Navbar: React.FC = () => {
 
           <div className="hidden md:flex items-center justify-center space-x-8">
             <a
-              href="#home"
+              href="/"
               className="relative text-white text-lg font-light transition duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
               Home
             </a>
             <a
-              href="#about"
+              href="/about"
               className="relative text-white text-lg font-light transition duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
               About
             </a>
             <a
-              href="#services"
+              href="/services"
               className="relative text-white text-lg font-light transition duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
               Services
             </a>
             <a
-              href="#contact"
+              href="/contacts"
               className="relative text-white text-lg font-light transition duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
               Contact
@@ -96,16 +96,16 @@ const Navbar: React.FC = () => {
 
       {isOpen && (
         <div className="md:hidden bg-gray-800 text-center py-4 space-y-4">
-          <a href="#home" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
+          <a href="/" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
             Home
           </a>
-          <a href="#about" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
+          <a href="/about" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
             About
           </a>
-          <a href="#services" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
+          <a href="/services" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
             Services
           </a>
-          <a href="#contact" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
+          <a href="/contacts" className="block text-white text-lg hover:text-yellow-400 transition duration-300">
             Contact
           </a>
           <a
